@@ -1,0 +1,12 @@
+{
+  "name": "@livemehere/dev-packs",
+  "repository": "https://github.com/livemehere/livemehere-dev-packs",
+  "description": "livemehere's dev packs",
+  "version": "1.0.0",
+  "private": true,
+  "author": "livemehere",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ]
+}
