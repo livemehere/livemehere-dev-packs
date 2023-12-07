@@ -7,6 +7,10 @@ on:
     paths:
       - 'packages/docs/**'
 
+defaults:
+    run:
+        working-directory: packages/docs
+
 permissions:
   contents: write
 
