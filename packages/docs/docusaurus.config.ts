@@ -8,7 +8,7 @@ const config: Config = {
   favicon: "img/favicon.ico",
 
   url: "https://livemehere.github.io",
-  baseUrl: "/livemehere-dev-packs/",
+  baseUrl: "/",
   organizationName: "livemehere",
   projectName: "livemehere-dev-packs",
   trailingSlash: false,
