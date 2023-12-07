@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[272],{5618:e=>{e.exports=JSON.parse('{"label":"hello","permalink":"/livemehere-dev-packs/blog/tags/hello","allTagsPath":"/livemehere-dev-packs/blog/tags","count":2,"unlisted":false}')}}]);
