@@ -1,0 +1,56 @@
+---
+sidebar_position: 5
+title: hooks
+---
+
+## `useModal` hooks example
+
+There are two functions in the useModal hook.
+
+- **pushModal** : add modal to modal stack
+- **closeAllModals** : clear all modal stack
+
+```tsx
+import ExampleModal from "./components/ExampleModal";
+import { useModal } from "async-modal-react";
+
+function App() {
+  const { pushModal, closeAllModals } = useModal();
+
+  const openModal = async () => {
+    try {
+      // resolve
+      const result = await pushModal(ExampleModal);
+      console.log(result);
+    } catch (e) {
+      // reject, close
+      console.log(e);
+    }
+  };
+
+  return (
+    <div>
+      <button onClick={openModal}>OPEN</button>
+    </div>
+  );
+}
+
+export default App;
+```
+
+### `pushModal` Full Options
+
+In `Setup` section, you can see the default options with `ModalProvider`.
+You can override the default options by passing the options as the third parameter of `pushModal`.
+
+```tsx
+const result = await pushModal<ReturnType, Props>(
+  ExampleModal, // Modal Component
+  {}, // ExampleModal props
+  {
+    // Individual options
+    onClickOutsideClose: true,
+    disableScroll: true,
+  },
+);
+```

@@ -2,13 +2,18 @@ import { themes as prismThemes } from "prism-react-renderer";
 import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 
+const baseURL =
+  process.env.NODE_ENV === "development" ? "/" : "/livemehere-dev-packs/";
+
+const githubURL = "https://github.com/livemehere/livemehere-dev-packs";
+
 const config: Config = {
   title: "@livemehere/dev-packs",
-  tagline: "JS,JS packages for web development",
+  tagline: "Javscript, Typescript, React packages for web development",
   favicon: "img/favicon.ico",
 
   url: "https://livemehere.github.io",
-  baseUrl: "/livemehere-dev-packs/",
+  baseUrl: baseURL,
   organizationName: "livemehere",
   projectName: "livemehere-dev-packs",
   trailingSlash: false,
@@ -24,9 +29,13 @@ const config: Config = {
     localeConfigs: {
       en: {
         htmlLang: "en-US",
+        path: "en",
+        label: "English",
       },
       ko: {
         htmlLang: "ko-KR",
+        path: "ko",
+        label: "한국어",
       },
     },
   },
@@ -37,17 +46,11 @@ const config: Config = {
       {
         docs: {
           sidebarPath: "./sidebars.ts",
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
+          editUrl: githubURL,
         },
         blog: {
           showReadingTime: true,
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
+          editUrl: githubURL,
         },
         theme: {
           customCss: "./src/css/custom.css",
@@ -57,25 +60,58 @@ const config: Config = {
   ],
 
   themeConfig: {
-    // Replace with your project's social card
     image: "img/docusaurus-social-card.jpg",
+    algolia: {
+      // The application ID provided by Algolia
+      appId: "8H9IR2RS9Z",
+
+      // Public API key: it is safe to commit it
+      apiKey: "3767326e90c66b79b6d03b60480f8041",
+
+      indexName: "first-index",
+
+      // Optional: see doc section below
+      contextualSearch: true,
+
+      // Optional: Specify domains where the navigation should occur through window.location instead on history.push. Useful when our Algolia config crawls multiple documentation sites and we want to navigate with window.location.href to them.
+      externalUrlRegex: "external\\.com|domain\\.com",
+
+      // Optional: Replace parts of the item URLs from Algolia. Useful when using the same search index for multiple deployments using a different baseUrl. You can use regexp or string in the `from` param. For example: localhost:3000 vs myCompany.com/docs
+      replaceSearchResultPathname: {
+        from: "/docs/", // or as RegExp: /\/docs\//
+        to: "/",
+      },
+
+      // Optional: Algolia search parameters
+      searchParameters: {},
+
+      // Optional: path for search page that enabled by default (`false` to disable it)
+      searchPagePath: "search",
+
+      //... other Algolia params
+    },
     navbar: {
       title: "livemehere-dev-packs",
       logo: {
-        alt: "My Site Logo",
-        src: "img/logo.svg",
+        alt: "dev-kong-logo",
+        src: "/img/devkong-logo.png",
       },
       items: [
         {
           type: "docSidebar",
           sidebarId: "tutorialSidebar",
           position: "left",
-          label: "Tutorial",
+          label: "Docs",
         },
-        { to: "/blog", label: "Blog", position: "left" },
+        // { to: "/blog", label: "Blog", position: "left" },
         {
-          href: "https://github.com/facebook/docusaurus",
+          type: "localeDropdown",
+          position: "right",
+        },
+        {
+          href: githubURL,
           label: "GitHub",
+          "aria-label": "GitHub",
           position: "right",
         },
       ],
@@ -84,46 +120,16 @@ const config: Config = {
       style: "dark",
       links: [
         {
-          title: "Docs",
-          items: [
-            {
-              label: "Tutorial",
-              to: "/docs/intro",
-            },
-          ],
-        },
-        {
-          title: "Community",
-          items: [
-            {
-              label: "Stack Overflow",
-              href: "https://stackoverflow.com/questions/tagged/docusaurus",
-            },
-            {
-              label: "Discord",
-              href: "https://discordapp.com/invite/docusaurus",
-            },
-            {
-              label: "Twitter",
-              href: "https://twitter.com/docusaurus",
-            },
-          ],
-        },
-        {
           title: "More",
           items: [
             {
-              label: "Blog",
-              to: "/blog",
-            },
-            {
               label: "GitHub",
-              href: "https://github.com/facebook/docusaurus",
+              href: githubURL,
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} livemehere.`,
     },
     prism: {
       theme: prismThemes.github,

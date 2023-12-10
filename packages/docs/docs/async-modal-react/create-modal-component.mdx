@@ -1,0 +1,55 @@
+---
+sidebar_position: 4
+title: Create Modal Component
+---
+
+## Create Modal with essential props
+
+There are 3 essential props to create modal component. `close`, `resolve`, `reject`.
+if one of those called, modal will be closed and return or throw value to caller.(`pushModal()` : next step will explain)
+
+```tsx
+const ExampleModal = ({ close, resolve, reject }) => {
+  return (
+    <div>
+      <h2>ExampleModal</h2>
+      <button onClick={() => resolve(`resolve value here`)}>RESOLVE</button>
+      <button onClick={() => reject("reject value here")}>REJECT</button>
+      <button onClick={close}>Close</button>
+    </div>
+  );
+};
+
+export default ExampleModal;
+```
+
+### typescript supports
+
+```tsx
+export interface ModalProps {
+  close: () => void;
+  resolve: <Result = any>(v: Result) => void;
+  reject: <Reason = any>(reason: Reason) => void;
+}
+```
+
+```tsx
+import { ModalProps } from "async-modal-react/types/modal";
+
+export interface ExampleProps extends ModalProps {
+  name: string;
+}
+
+const ExampleModal = ({ close, resolve, reject, name }: ExampleProps) => {
+  return (
+    <div>
+      <h2>ExampleModal</h2>
+      <button onClick={() => resolve(`resolve value here`)}>RESOLVE</button>
+      <button onClick={() => reject("reject value here")}>REJECT</button>
+      <button onClick={close}>Close</button>
+    </div>
+  );
+};
+
+export default ExampleModal;
+```

@@ -1,0 +1,62 @@
+---
+sidebar_position: 6
+title: Customization
+---
+
+This library focuses on providing a simple and easy to use API for creating.
+so it has common styles for default. (background, centering).
+
+And this lib can open multiple modals at the same time but those modals layout is flexbox.
+
+## Customizing top container
+
+select top container by `id="modal-root"`.
+
+```tsx title='default'
+<div
+  id="modal-root"
+  style={{
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    background: "rgba(0, 0, 0, 0.5)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  }}
+>
+  {children}
+</div>
+```
+
+```css title='global.css'
+#modal-root {
+  background: blue !important;
+}
+```
+
+## Customizing modal position
+
+Normally, modal is centered by `display: flex; justify-content: center; align-items: center;`.
+If there are more than 2 modal opened, those modals are displayed in a row.
+so maybe you need to give `position: absolute;` to each modal.
+
+```tsx title='example-modal'
+// ...
+return (
+  <div
+    style={{
+      background: "white",
+      position: "absolute",
+    }}
+  >
+    <h2>ExampleModal</h2>
+    <button onClick={() => resolve(`resolve! ${name}`)}>RESOLVE</button>
+    <button onClick={() => reject("reject T-T")}>REJECT</button>
+    <button onClick={close}>Close</button>
+    <button onClick={openModal}>OPEN</button>
+  </div>
+);
+```

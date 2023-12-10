@@ -1,0 +1,8 @@
+{
+  "label": "async-modal-react",
+  "position": 1,
+  "link": {
+    "type": "generated-index",
+    "description": "Modal solution for react with Promise"
+  }
+}

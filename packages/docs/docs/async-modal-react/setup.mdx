@@ -1,0 +1,49 @@
+---
+sidebar_position: 3
+title: Setup
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## Wrap your top level component with the `ModalProvider`
+
+<Tabs>
+    <TabItem value={'react'} label={'React'}>
+        ```jsx title='main.jsx'
+        import { ModalProvider } from "async-modal-react";
+
+        ReactDOM.createRoot(document.getElementById("root")).render(
+            <ModalProvider>
+                <App />
+            </ModalProvider>,
+        );
+        ```
+    </TabItem>
+    <TabItem value={'next.js'} label={'Next.js'}>
+        ```jsx title="pages/_app.jsx"
+        import { ModalProvider } from "async-modal-react";
+
+        export default function MyApp({ Component, pageProps }) {
+            return <ModalProvider>
+                     <Component {...pageProps} />
+                   </ModalProvider>
+            }
+        ```
+    </TabItem>
+
+</Tabs>
+
+### with props
+
+```jsx title="main.jsx"
+<ModalProvider
+  closeOnOutsideClick={true} // default: true, close modal when clicking outside of the modal
+  disableBodyScrollWhenOpen={true} // default: true, disable body scroll when modal is open
+  closeOnRouteChange={true} // default: true, close modal when route changes (exactly close on popstate event from window)
+>
+  // ...
+</ModalProvider>
+```
+
+Done! Now you can use the `useModal` hook to open and close modals.
