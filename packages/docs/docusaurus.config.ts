@@ -61,6 +61,9 @@ const config: Config = {
 
   themeConfig: {
     image: "img/social-card.png",
+    metadata: [
+      { name: "keywords", content: "javascript, typescript, library, react" },
+    ],
     algolia: {
       // The application ID provided by Algolia
       appId: "8H9IR2RS9Z",
