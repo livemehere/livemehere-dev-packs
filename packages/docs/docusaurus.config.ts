@@ -64,35 +64,6 @@ const config: Config = {
     metadata: [
       { name: "keywords", content: "javascript, typescript, library, react" },
     ],
-    algolia: {
-      // The application ID provided by Algolia
-      appId: "8H9IR2RS9Z",
-
-      // Public API key: it is safe to commit it
-      apiKey: "3767326e90c66b79b6d03b60480f8041",
-
-      indexName: "first-index",
-
-      // Optional: see doc section below
-      contextualSearch: true,
-
-      // Optional: Specify domains where the navigation should occur through window.location instead on history.push. Useful when our Algolia config crawls multiple documentation sites and we want to navigate with window.location.href to them.
-      externalUrlRegex: "external\\.com|domain\\.com",
-
-      // Optional: Replace parts of the item URLs from Algolia. Useful when using the same search index for multiple deployments using a different baseUrl. You can use regexp or string in the `from` param. For example: localhost:3000 vs myCompany.com/docs
-      replaceSearchResultPathname: {
-        from: "/docs/", // or as RegExp: /\/docs\//
-        to: "/",
-      },
-
-      // Optional: Algolia search parameters
-      searchParameters: {},
-
-      // Optional: path for search page that enabled by default (`false` to disable it)
-      searchPagePath: "search",
-
-      //... other Algolia params
-    },
     navbar: {
       title: "livemehere-dev-packs",
       logo: {
