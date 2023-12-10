@@ -60,7 +60,7 @@ const config: Config = {
   ],
 
   themeConfig: {
-    image: "img/docusaurus-social-card.jpg",
+    image: "img/social-card.png",
     algolia: {
       // The application ID provided by Algolia
       appId: "8H9IR2RS9Z",
