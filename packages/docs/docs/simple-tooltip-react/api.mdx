@@ -1,0 +1,25 @@
+---
+sidebar_position: 4
+title: API
+---
+
+```tsx
+export type ToolTipPosition = {
+    top: number;
+    left: number;
+};
+
+interface Props {
+    content: ReactNode;
+    dir?: "top" | "bottom" | "left" | "right"; // default: top
+    children: JSX.Element;
+    margin?: number;
+    trigger?: "hover" | "click"; // default: hover
+    forceShow?: boolean;
+    arrowSize?: number;
+    color?: string; // default: black
+    position?: ToolTipPosition;
+    disabled?: boolean;
+    onChangeFinalShow?: (show: boolean) => void;
+}
+```
