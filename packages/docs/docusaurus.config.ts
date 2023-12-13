@@ -39,7 +39,15 @@ const config: Config = {
       },
     },
   },
-
+  plugins: [
+    [
+      "@docusaurus/plugin-google-gtag",
+      {
+        trackingID: "G-JH6SRBRG70",
+        anonymizeIP: false,
+      },
+    ],
+  ],
   presets: [
     [
       "classic",
