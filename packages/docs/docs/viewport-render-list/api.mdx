@@ -1,0 +1,19 @@
+---
+sidebar_position: 4
+title: API
+---
+
+```tsx
+interface Props {
+  render: (
+    index: number,
+    wasInView: boolean, // Has item ever in view
+    wasRendered: boolean, // Has item ever in view and removed from DOM
+  ) => ReactNode;
+  totalCount: number;
+  rowHeight: number;
+  startMargin?: number;
+  rowGap?: number;
+  paddingCount?: number;
+}
+```

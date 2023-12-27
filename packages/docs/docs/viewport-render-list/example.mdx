@@ -1,0 +1,132 @@
+---
+sidebar_position: 3
+title: Example
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs defaultValue="Basic">
+    <TabItem value="Before">
+        ```jsx
+        import { ViewPortRenderList } from "./lib";
+        import { useEffect, useState } from "react";
+
+        export default function App() {
+          const [list, setList] = useState([]);
+          useEffect(() => {
+            fetch("https://jsonplaceholder.typicode.com/photos")
+              .then((res) => res.json())
+              .then((res) => {
+                setList(res);
+              });
+          }, []);
+          return (
+            <div>
+              {list.map((item) => (
+                 <div key={item.id}>
+                   <h5>{item.title}</h5>
+                   <img src={item.thumbnailUrl} alt="" />
+                 </div>
+               ))}
+            </div>
+          );
+        }
+        ```
+    </TabItem>
+    <TabItem value="Basic">
+        ```jsx
+        import { ViewPortRenderList } from "./lib";
+        import { useEffect, useState } from "react";
+
+        export default function App() {
+          const [list, setList] = useState([]);
+          useEffect(() => {
+            fetch("https://jsonplaceholder.typicode.com/photos")
+              .then((res) => res.json())
+              .then((res) => {
+                setList(res);
+              });
+          }, []);
+          return (
+            <div>
+              <ViewPortRenderList
+                render={(index) => (
+                  <div>
+                    <h5>{list[index].title}</h5>
+                    <img src={list[index].thumbnailUrl} alt="" />
+                  </div>
+                )}
+                totalCount={list.length}
+                rowHeight={193}
+              />
+            </div>
+          );
+        }
+        ```
+    </TabItem>
+    <TabItem value="startMargin">
+        ```jsx
+        import { ViewPortRenderList } from "./lib";
+        import { useEffect, useState } from "react";
+
+        export default function App() {
+          const [list, setList] = useState([]);
+          useEffect(() => {
+            fetch("https://jsonplaceholder.typicode.com/photos")
+              .then((res) => res.json())
+              .then((res) => {
+                setList(res);
+              });
+          }, []);
+          return (
+            <div>
+             <h1
+               style={{
+                 height: `20px`,
+               }}
+             >
+               App
+             </h1>
+             <header
+               style={{
+                 height: `100px`,
+               }}
+             >
+               <h2>header</h2>
+             </header>
+             <ViewPortRenderList
+               render={(index) => (
+                 <div>
+                   <h5>{list[index].title}</h5>
+                   <img src={list[index].thumbnailUrl} alt="" />
+                 </div>
+               )}
+               totalCount={list.length}
+               rowHeight={193}
+               startMargin={120} // header height + navbar height
+             />
+            </div>
+          );
+        }
+        ```
+    </TabItem>
+
+</Tabs>
+
+
+
+## Note
+
+- `render`, `totalCount`, `rowHeight` are required.
+- `render` is a function that returns a component to be rendered.
+- `totalCount` is the total number of items to be rendered.
+- `rowHeight` is the height of each item(Don't care about extra height, it will be automatically calculated).
+- `rowGap` is the gap between each item. (default: 0)
+- `paddingCount` is the number of items to be rendered in advance. (default: 0)
+
+:::warning
+
+- `startMargin` is the start position of the list. (default: 0). If you has a header, navbar, etc, you must to set the height all of them to `startMargin`. **You need to calculate the height of all of them**.
+
+:::

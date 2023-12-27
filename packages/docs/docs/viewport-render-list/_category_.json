@@ -1,0 +1,8 @@
+{
+  "label": "viewport-render-list",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "React component for rendering a list of items only in a viewport."
+  }
+}

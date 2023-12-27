@@ -20,13 +20,20 @@ export default function App() {
   }, []);
   return (
     <div>
-      <h1>App</h1>
-      {/*{list.map((item) => (*/}
-      {/*  <div key={item.id}>*/}
-      {/*    <h5>{item.title}</h5>*/}
-      {/*    <img src={item.thumbnailUrl} alt="" />*/}
-      {/*  </div>*/}
-      {/*))}*/}
+      <h1
+        style={{
+          height: `20px`,
+        }}
+      >
+        App
+      </h1>
+      <header
+        style={{
+          height: `100px`,
+        }}
+      >
+        <h2>header</h2>
+      </header>
       <ViewPortRenderList
         render={(index) => (
           <div>
@@ -36,6 +43,7 @@ export default function App() {
         )}
         totalCount={list.length}
         rowHeight={193}
+        startMargin={120}
       />
     </div>
   );
