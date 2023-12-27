@@ -74,14 +74,20 @@ export const ViewPortRenderList: FC<Props> = ({
   useEffect(() => {
     setViewPortHeight(window.innerHeight);
 
-    function handler() {
+    function scrollHandler() {
       setScrollY(window.scrollY - startMargin);
     }
 
-    window.addEventListener("scroll", handler);
+    function resizeHandler() {
+      setViewPortHeight(window.innerHeight);
+    }
+
+    window.addEventListener("scroll", scrollHandler);
+    window.addEventListener("resize", resizeHandler);
 
     return () => {
-      window.removeEventListener("scroll", handler);
+      window.removeEventListener("scroll", scrollHandler);
+      window.removeEventListener("resize", resizeHandler);
     };
   }, [startMargin]);
 
