@@ -2,7 +2,7 @@
 
 [Documentation - livemehere-dev-packs](https://livemehere.github.io/livemehere-dev-packs/docs/viewport-render-list/what-is-this)
 
-![example](./img/example.gif)
+![example](https://github.com/livemehere/livemehere-dev-packs/blob/master/packages/viewport-render-list/img/example.gif)
 
 ## Introduction
 
