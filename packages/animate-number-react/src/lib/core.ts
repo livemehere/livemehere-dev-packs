@@ -204,7 +204,7 @@ export default class AnimateNumberCore {
     if (!this._signSize) {
       const sign = document.createElement("span");
       sign.id = "sign-size";
-      sign.innerHTML = "$";
+      sign.innerHTML = "-";
       sign.style.color = "transparent";
       sign.style.position = "absolute";
       sign.style.top = "-1000px";
