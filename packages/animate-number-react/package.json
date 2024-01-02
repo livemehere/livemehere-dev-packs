@@ -1,13 +1,13 @@
 {
-  "name": "animate-number",
+  "name": "animate-number-react",
   "private": false,
   "version": "0.0.1",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "author": "livemehere",
-  "repository": "https://github.com/livemehere/livemehere-dev-packs/tree/master/packages/animate-number",
-  "description": "A react component to animate number",
+  "repository": "https://github.com/livemehere/livemehere-dev-packs/tree/master/packages/animate-number-react",
+  "description": "React component that animates a number",
   "license": "MIT",
   "exports": {
     ".": {
@@ -18,6 +18,7 @@
   "keywords": [
     "react",
     "react-component",
+    "animate-number-react",
     "animate-number",
     "count-up",
     "count-down",

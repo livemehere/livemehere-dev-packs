@@ -1,12 +1,22 @@
 type Easing = "linear" | "easeOut" | "easeIn" | "easeInOut";
-interface Options {
+export interface Options {
+  /** @description initialValue */
   startVal?: number;
+  /** @description millisecond (default 2000) */
   duration?: number;
+  /** @description linear, easeOut, easeIn, easeInOut (default 'easeOut') */
   easing?: Easing;
+  /** @description custom formatter(not work when animation:true) */
   formatter?: (value: number) => string;
+  /** @description separator (default ',') */
   separator?: string;
+  /** @description animation (default true) */
   animation?: boolean;
+  /** @description slide animation (default true) */
+  slideAnimation?: boolean;
+  /** @description decimal (default 0) */
   decimal?: number;
+  /** @description lastDigitDelay (default 800) */
   lastDigitDelay?: number;
 }
 
@@ -18,18 +28,18 @@ interface Cell {
   progress?: number;
 }
 
-const defaultOptions: Options = {
+export const defaultOptions: Options = {
   startVal: 0,
   duration: 2000,
-  easing: "linear",
-  formatter: () => "",
+  easing: "easeOut",
   separator: ",",
-  animation: false,
+  animation: true,
+  slideAnimation: true,
   decimal: 0,
-  lastDigitDelay: 2000,
+  lastDigitDelay: 800,
 };
 
-export default class AnimateNumber {
+export default class AnimateNumberCore {
   private el: HTMLElement;
   private startVal: number;
   private endVal: number;
@@ -40,6 +50,7 @@ export default class AnimateNumber {
   private frameVal: number;
   private startTime: number | null;
   private animation: boolean;
+  private slideAnimation: boolean;
   private decimal: number;
   private formatter: (value: number) => string;
   options: Options; // default options
@@ -47,6 +58,8 @@ export default class AnimateNumber {
   /* ANIMATE */
   private cell_digits: Cell[] | null;
   private lastDigitDelay: number;
+  private _sepSize: number;
+  private _signSize: number;
 
   constructor(target: HTMLElement, endVal: number, options?: Options) {
     this.options = {
@@ -73,6 +86,7 @@ export default class AnimateNumber {
     this.easing = this.options.easing!;
     this.separator = this.options.separator!;
     this.animation = this.options.animation!;
+    this.slideAnimation = this.options.slideAnimation!;
     this.decimal = this.options.decimal!;
     this.lastDigitDelay = this.options.lastDigitDelay!;
     this.formatter = this.options.formatter!;
@@ -83,11 +97,13 @@ export default class AnimateNumber {
     this.rAF = requestAnimationFrame(this._animate.bind(this));
   }
 
+  setToEnd() {
+    this.reset();
+    this._render(this.endVal, 1);
+  }
+
   update(newEndVal: number) {
     if (newEndVal === this.endVal) return;
-    if (this.animation) {
-      // TODO: 한번 애니메이션이 동작된 상황이기 때문에, 그 상황에 맞게 추가적인 처리 필요
-    }
     this.startVal = this.frameVal;
     this.startTime = null;
     this.endVal = newEndVal;
@@ -98,17 +114,20 @@ export default class AnimateNumber {
     if (!this.startTime) {
       this.startTime = timestamp;
     }
-    /* 시간,진행도 계산 ms 단위로 계산되기 때문에, 최대값을 넘지 않게 조치 */
+
+    /* prevent values that exceed duration, progress */
     const elapsedTime = Math.min(timestamp - this.startTime, this.duration);
     const progress = Math.min(elapsedTime / this.duration, 1);
     const mount = this.endVal - this.startVal;
 
-    /* 현재 progress 에 해당하는 값 계산 및 업데이트 */
-    const easeFn = this[`_${this.easing}` as keyof AnimateNumber] as Function;
+    /* update value */
+    const easeFn = this[
+      `_${this.easing}` as keyof AnimateNumberCore
+    ] as Function;
     this.frameVal = easeFn(elapsedTime, this.startVal, mount, this.duration);
     this._render(this.frameVal, progress);
 
-    /* 완료될 때 까지 반복 */
+    /* until complete */
     if (progress !== 1) {
       this.rAF = requestAnimationFrame(this._animate.bind(this));
     } else {
@@ -116,19 +135,18 @@ export default class AnimateNumber {
     }
   }
 
-  /* 최종 값이 들어오면, 입맛에 맞게 렌더링 */
   private _render(value: number, progress: number) {
-    /* 단순히 innerHTML 로 set */
-    if (!this.animation) {
+    /* simple set html string */
+    if (!this.slideAnimation) {
       this.el.innerHTML = this.formatter(value);
       return;
     }
 
-    /* animation=true -> 애니메이션 효과 */
+    /* slide animation */
     this._countRender(value, progress);
   }
 
-  /* 기본 포맷 ex) 9,999,999,999 ... 소수점 */
+  /* default format ex) 9,999,999,999 ... */
   private _formatter(value: number) {
     if (this.separator === "") return value.toFixed(this.decimal);
     let fixedV = value.toFixed(this.decimal);
@@ -158,69 +176,111 @@ export default class AnimateNumber {
 
   private _countRender(value: number, progress: number) {
     const formattedValue = this._formatter(value);
-    let createNow = false;
 
     /* INIT */
     if (!this.cell_digits) {
-      createNow = true;
       this._appendScript();
       this.cell_digits = [];
       this.el.innerHTML = `<div class="counter-up-container"></div>`;
     }
 
     const blank = '<span style="color:transparent">0</span>';
+    if (!this._sepSize) {
+      const separator = document.createElement("span");
+      separator.id = "sep-size";
+      separator.innerHTML = this.separator;
+      separator.style.color = "transparent";
+      separator.style.position = "absolute";
+      separator.style.top = "-1000px";
+      separator.style.left = "-1000px";
+      separator.style.zIndex = "-1";
+      separator.style.fontSize = "1em";
+
+      this.el.append(separator);
+      this._sepSize = this.el.querySelector("#sep-size")?.clientWidth || 0;
+      this.el.removeChild(this.el.querySelector("#sep-size") as Node);
+    }
+
+    if (!this._signSize) {
+      const sign = document.createElement("span");
+      sign.id = "sign-size";
+      sign.innerHTML = "$";
+      sign.style.color = "transparent";
+      sign.style.position = "absolute";
+      sign.style.top = "-1000px";
+      sign.style.left = "-1000px";
+      sign.style.zIndex = "-1";
+      sign.style.fontSize = "1em";
+
+      this.el.append(sign);
+      this._signSize = this.el.querySelector("#sign-size")?.clientWidth || 0;
+      this.el.removeChild(this.el.querySelector("#sign-size") as Node);
+    }
+
     const transition = `transform ${this.duration}ms ease-out`;
 
-    /* 표시할 숫자만큼의 <span> 컨테이너 생성 */
+    /* create span as many as the number of digits to be displayed */
     for (let i = this.cell_digits.length; i < formattedValue.length; i++) {
       const container = document.createElement("span");
       container.style.transition = transition;
-      container.innerHTML = createNow ? "" : blank;
+      container.innerHTML = blank;
       this.el.firstChild?.appendChild(container);
       this.cell_digits.push({
         container,
-        position: createNow ? 1 : 0,
+        position: 0,
         current: undefined,
       });
     }
+
     /* RENDER */
     for (let i = 0; i < this.cell_digits.length; i++) {
       const cell = this.cell_digits[i];
-      const curValue = formattedValue.charAt(i);
+      const curValue = formattedValue.charAt(i) || "$";
 
-      /* 현제 cell 의 값이, 업데이트된 값과 다르면 container 에 <span> 태그를 추가한다. */
+      /* if cell value is different from updated value, add <span> tag to container */
       if (cell.current !== curValue) {
         const newDigit = document.createElement("span");
         newDigit.innerHTML = curValue;
+        if (curValue === this.separator) {
+          cell.container.style.width = `${this._sepSize}px`;
+        } else if (curValue === "-") {
+          cell.container.style.width = `${this._signSize}px`;
+        } else {
+          cell.container.style.width = "auto";
+        }
+        if (curValue === "$") {
+          newDigit.style.color = "transparent";
+        }
         cell.current = curValue;
         cell.progress = progress;
         this._appendDigit(cell, newDigit);
       }
 
       clearTimeout(cell.clearTimer);
-      /* remove passed digit spans */
-      cell.clearTimer = setTimeout(
-        () => {
-          const cell = this.cell_digits![i];
-          if (!cell) return;
-          cell.container.style.transition = "";
-          cell.container.style.transform = "translateY(0)";
-          cell.position = 0;
-          while (cell.container.children.length > 1) {
-            cell.container.removeChild(cell.container.firstChild as Node);
-          }
 
-          requestAnimationFrame(() => {
-            cell.container.style.transition = transition;
-          });
-        },
-        this.duration * 2 + this.lastDigitDelay,
-      ); // 애니메이션 시간 * 2 + 마지막 딜레이 (정확한 값은 아니고, 대략적인 값)
+      /* remove passed digit spans */
+      cell.clearTimer = setTimeout(() => {
+        cell.container.style.transition = "";
+        cell.container.style.transform = "translateY(0)";
+        cell.position = 0;
+        while (cell.container.children.length > 1) {
+          cell.container.removeChild(cell.container.firstChild as Node);
+        }
+
+        if (cell.container.firstChild?.textContent === "$") {
+          cell.container.remove();
+          this.cell_digits = this.cell_digits!.filter((c) => c.current !== "$");
+        }
+
+        setTimeout(() => {
+          cell.container.style.transition = transition;
+        }, 100);
+      }, this.duration);
     }
   }
 
   private _appendScript() {
-    /* 웹사이트 통틀어서 단한번만 실행 */
+    /* run only once for the entire website */
     if (!document.querySelector("style[kong-count-up]")) {
       const style = document.createElement("style");
       style.setAttribute("kong-count-up", "kong-count-up");
@@ -235,14 +295,13 @@ export default class AnimateNumber {
            }
            
            .counter-up-container > span {
-              height: 100%;
+              height: 1em;
               line-height: 100%;
               display: inline-flex;
               flex-direction: column;
               align-items: center;
               justify-content: start;
             }
-            
           `;
       document.head.append(style);
     }
