@@ -46,7 +46,7 @@ export default function App() {
       </div>
       <AnimateNumber
         duration={1000}
-        slideAnimation={false}
+        slideAnimation={true}
         animation={true}
         easing={"easeOut"}
         decimal={0}

@@ -33,22 +33,18 @@ export const AnimateNumber: FC<
       combinedOptions,
     );
     animationCore.current!.setToEnd();
-    console.log("create new instance", animationCore.current);
   }, [combinedOptions]);
 
   useEffect(() => {
     if (!animationCore.current) return;
     if (combinedOptions.animation) {
       if (initialStarted) {
-        console.log("update", children);
         animationCore.current.update(+children);
       } else {
-        console.log("start", children);
         setInitialStarted(true);
         animationCore.current.start();
       }
     } else {
-      console.log("set to end", children);
       animationCore.current.setToEnd();
     }
   }, [children]);
