@@ -44,7 +44,14 @@ export default function App() {
           </button>
         </div>
       </div>
-      <AnimateNumber duration={1000} slideAnimation={slideAnimate}>
+      <AnimateNumber
+        duration={1000}
+        slideAnimation={false}
+        animation={true}
+        easing={"easeOut"}
+        decimal={0}
+        startVal={0}
+      >
         {newV}
       </AnimateNumber>
     </div>

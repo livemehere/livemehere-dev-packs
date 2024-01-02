@@ -2,7 +2,7 @@ type Easing = "linear" | "easeOut" | "easeIn" | "easeInOut";
 export interface Options {
   /** @description initialValue */
   startVal?: number;
-  /** @description millisecond (default 2000) */
+  /** @description millisecond (default 1000) */
   duration?: number;
   /** @description linear, easeOut, easeIn, easeInOut (default 'easeOut') */
   easing?: Easing;
@@ -12,7 +12,7 @@ export interface Options {
   separator?: string;
   /** @description animation (default true) */
   animation?: boolean;
-  /** @description slide animation (default true) */
+  /** @description slide animation (default false) */
   slideAnimation?: boolean;
   /** @description decimal (default 0) */
   decimal?: number;
@@ -30,11 +30,11 @@ interface Cell {
 
 export const defaultOptions: Options = {
   startVal: 0,
-  duration: 2000,
+  duration: 1000,
   easing: "easeOut",
   separator: ",",
   animation: true,
-  slideAnimation: true,
+  slideAnimation: false,
   decimal: 0,
   lastDigitDelay: 800,
 };

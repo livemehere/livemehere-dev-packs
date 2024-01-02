@@ -1,0 +1,37 @@
+---
+sidebar_position: 3
+title: Example
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs defaultValue="Basic">
+    <TabItem value="Basic">
+        ```jsx
+        import { AnimateNumber } from 'animate-number-react';
+
+        // ...
+
+        <AnimateNumber>1000</AnimateNumber>
+        ```
+    </TabItem>
+    <TabItem value="Full-props">
+        ```jsx
+        import { AnimateNumber } from 'animate-number-react';
+
+        // default values
+
+        <AnimateNumber
+            duration={1000} // milliseconds
+            slideAnimation={false} // using slide animation
+            animation={true} // using animation or just display static number
+            easing={"easeOut"} // easing value
+            decimal={0}  // decimal places
+            startVal={0} // start value, you can start from any number
+        >
+            {newV}
+        </AnimateNumber>
+        ```
+    </TabItem>
+</Tabs>

@@ -14,4 +14,4 @@ Basically, 0 is the start value and children is the end value.(children must be 
 - Animate number from 0 to children
 - Animate number from previous children to children.(you can update)
 - Support two types of animation : `slide` and `direct`.
-- Customizable animation `duration`, `easing`, `format`, `separator`, `decimal`, `lastDigitDelay`, `startVal`.
+- Customizable animation `duration`, `easing`, `format`, `separator`, `decimal`, `startVal` etc.

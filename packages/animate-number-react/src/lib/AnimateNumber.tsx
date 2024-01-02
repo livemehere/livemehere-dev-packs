@@ -4,10 +4,9 @@ import AnimateNumberCore, { defaultOptions, Options } from "./core.ts";
 interface Props {
   children: string | number;
 }
-export const AnimateNumber: FC<Props & Options> = ({
-  children,
-  ...options
-}) => {
+export const AnimateNumber: FC<
+  Props & Omit<Options, "lastDigitDelay" | "formatter">
+> = ({ children, ...options }) => {
   const combinedOptions = useMemo(
     () => ({
       ...defaultOptions,
@@ -18,9 +17,7 @@ export const AnimateNumber: FC<Props & Options> = ({
       options.duration,
       options.slideAnimation,
       options.easing,
-      options.formatter,
       options.decimal,
-      options.lastDigitDelay,
       options.startVal,
     ],
   );
